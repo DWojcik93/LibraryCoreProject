@@ -1,0 +1,32 @@
+﻿@model List<LibraryCoreProject.Core.Dtos.BookDto>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+<div>
+    <table>
+        <thead>
+            <tr>
+                <td>Author</td>
+                <td>Title</td>
+                <td>Category</td>
+                <td>Rate</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                @foreach (var item in Model)
+                {
+                    <td>@item.Author</td>
+                    <td>@item.Title</td>
+                    <td>@item.Category</td>
+                    <td>@item.Rate</td>
+                }
+            </tr>
+        </tbody>
+    </table>
+</div>
