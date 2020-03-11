@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using LibraryCoreProject.Core.Interfaces;
 using LibraryCoreProject.Core.Managers;
+using LibraryCoreProject.Core.Profiles;
 using LibraryCoreProject.Data.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,7 +29,7 @@ namespace LibraryCoreProject.WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(c => c.AddProfile<LibraryProfile>(), typeof(Startup));
 
             services.AddControllersWithViews();
 

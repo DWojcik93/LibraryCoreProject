@@ -18,15 +18,15 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                @foreach (var item in Model)
-                {
+            @foreach (var item in Model)
+            {
+                <tr>
                     <td>@item.Author</td>
                     <td>@item.Title</td>
                     <td>@item.Category</td>
-                    <td>@item.Rate</td>
-                }
-            </tr>
-        </tbody>
+                    <td>@item.Rate</td>                    
+                </tr>
+            }
+            </tbody>
     </table>
 </div>

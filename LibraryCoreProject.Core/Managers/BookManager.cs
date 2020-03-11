@@ -35,7 +35,7 @@ namespace LibraryCoreProject.Core.Managers
 
         public List<BookDto> GetAllBooks()
         {
-            var books = _context.Books.ToList();
+            var books = _context.Books.Include(a => a.Author).ToList();
             return _mapper.Map<List<Book>, List<BookDto>>(books);
         }
 
