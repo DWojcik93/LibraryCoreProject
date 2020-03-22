@@ -28,7 +28,7 @@ namespace LibraryCoreProject.Core.Managers
             throw new NotImplementedException();
         }
 
-        public void DeleteBook(int bookId)
+        public void DeleteBook(string bookId)
         {
             throw new NotImplementedException();
         }
@@ -39,12 +39,13 @@ namespace LibraryCoreProject.Core.Managers
             return _mapper.Map<List<Book>, List<BookDto>>(books);
         }
 
-        public Task<BookDto> GetBookById(int bookId)
+        public async Task<BookDto> GetBookById(string bookId)
         {
-            throw new NotImplementedException();
+            var book = await _context.Books.Include(a => a.Author).FirstOrDefaultAsync(a => a.GUID.ToString() == bookId);
+            return _mapper.Map<BookDto>(book);
         }
 
-        public BookDto PutBook(int bookId)
+        public BookDto PutBook(string bookId)
         {
             throw new NotImplementedException();
         }

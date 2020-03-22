@@ -15,5 +15,6 @@ namespace LibraryCoreProject.Core.Dtos
         public int Pages { get; set; }
         public Rate Rate { get; set; }
         public Category Category { get; set; }
+        public bool IsAvailable { get; set; }
     }
 }

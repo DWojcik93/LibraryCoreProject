@@ -35,6 +35,5 @@ namespace LibraryCoreProject.Data.Models
         [ForeignKey("LibraryId")]
         public virtual Library Library { get; set; }
         public int? LibraryId { get; set; }
-
     }
 }

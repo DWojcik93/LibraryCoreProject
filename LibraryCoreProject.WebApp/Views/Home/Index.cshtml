@@ -8,23 +8,27 @@
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 <div>
-    <table>
+    <table class="table table-bordered table-responsive-lg table-hover">
         <thead>
             <tr>
                 <td>Author</td>
                 <td>Title</td>
                 <td>Category</td>
                 <td>Rate</td>
+                <td>Pages</td>
+                <td>Available</td>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>@item.Author</td>
+                    <td>@item.Author.FirstName @item.Author.LastName</td>
                     <td>@item.Title</td>
                     <td>@item.Category</td>
                     <td>@item.Rate</td>                    
+                    <td>@item.Pages</td>              
+                    <td>@item.IsAvailable</td>              
                 </tr>
             }
             </tbody>
