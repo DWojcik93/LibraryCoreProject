@@ -28,6 +28,18 @@ namespace LibraryCoreProject.WebApp.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> Details(string bookId)
+        {
+            if (bookId == null)
+                return BadRequest();
+
+            var model = await _manager.GetBookById(bookId);
+            if (model == null)
+                return NotFound();
+
+            return View(model);
+        }
+
         public IActionResult Privacy()
         {
             return View();

@@ -41,7 +41,11 @@ namespace LibraryCoreProject.Core.Managers
 
         public async Task<BookDto> GetBookById(string bookId)
         {
-            var book = await _context.Books.Include(a => a.Author).FirstOrDefaultAsync(a => a.GUID.ToString() == bookId);
+            var book = await _context.Books
+                .Include(a => a.Author)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(a => a.GUID.ToString() == bookId);
+
             return _mapper.Map<BookDto>(book);
         }
 

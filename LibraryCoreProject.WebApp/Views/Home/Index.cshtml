@@ -22,14 +22,15 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>@item.Author.FirstName @item.Author.LastName</td>
-                    <td>@item.Title</td>
-                    <td>@item.Category</td>
-                    <td>@item.Rate</td>                    
-                    <td>@item.Pages</td>              
-                    <td>@item.IsAvailable</td>              
-                </tr>
+            <tr>
+                <td>@item.Author.FirstName @item.Author.LastName</td>
+                <td>@item.Title</td>
+                <td>@item.Category</td>
+                <td>@item.Rate</td>
+                <td>@item.Pages</td>
+                <td>@item.IsAvailable</td>
+                <td><a asp-action="Details" asp-route-bookId="@item.GUID.ToString()">Edit</a></td>                
+            </tr>
             }
             </tbody>
     </table>
