@@ -33,9 +33,9 @@ namespace LibraryCoreProject.Core.Managers
             throw new NotImplementedException();
         }
 
-        public List<BookDto> GetAllBooks()
+        public async Task<List<BookDto>> GetAllBooks()
         {
-            var books = _context.Books.Include(a => a.Author).ToList();
+            var books = await _context.Books.Include(a => a.Author).ToListAsync();
             return _mapper.Map<List<Book>, List<BookDto>>(books);
         }
 

@@ -9,7 +9,7 @@ namespace LibraryCoreProject.Core.Interfaces
 {
     public interface IBookManager
     {
-        List<BookDto> GetAllBooks();
+        Task<List<BookDto>> GetAllBooks();
         Task<BookDto> GetBookById(string bookId);
         BookDto CreateBook();
         BookDto PutBook(string bookId);
