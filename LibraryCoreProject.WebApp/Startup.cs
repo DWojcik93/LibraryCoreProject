@@ -31,7 +31,10 @@ namespace LibraryCoreProject.WebApp
         {
             services.AddAutoMapper(c => c.AddProfile<LibraryProfile>(), typeof(Startup));
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
 
             services.AddDbContext<LibraryContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("LibraryDatabase")));
