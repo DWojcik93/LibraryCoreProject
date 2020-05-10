@@ -1,4 +1,4 @@
-﻿@model List<LibraryCoreProject.Core.Dtos.BookDto>
+﻿@model Task<List<LibraryCoreProject.Core.Dtos.BookDto>>
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -20,7 +20,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.Result)
             {
                 <tr>
                     <td>@item.Author.FirstName @item.Author.LastName</td>
@@ -39,3 +39,47 @@
         </tbody>
     </table>
 </div>
+<br />
+<div>
+    <table class="table table-bordered table-responsive-lg table-hover" id="apiBooks">
+    </table>
+</div>
+
+
+@section Scripts{
+    <script>
+        $(function () {
+            $.ajax("/api/LibraryApi/",
+                { method: "get" })
+                .then(function (response) {
+                    console.log(response);
+                    $("#apiBooks").dataTable({
+                        data: response,
+                        columns: [
+                            { "data": "author.firstName"},
+                            { "data": "title"},
+                            { "data": "category"},
+                            { "data": "rate"},
+                            { "data": "pages"},
+                            { "data": "isAvailable" },
+                            {
+                                mRender: function (data, type, row) {
+                                    var linkEdit = '@Html.ActionLink("Edit", "Edit", "LibraryApi", new { guid = -1 })';
+                                    console.log(row.guid);
+                                    linkEdit = linkEdit.replace("-1", row.guid);
+
+                                    var linkDetails = '@Html.ActionLink("Details", "Get", "LibraryApi", new { guid = -1 })';
+                                    linkDetails = linkDetails.replace("-1", row.guid);
+
+                                    var linkDelete = '@Html.ActionLink("Delete", "Delete", new { guid = -1 })';
+                                    linkDelete = linkDelete.replace("-1", row.guid);
+
+                                    return linkDetails + " | " + linkEdit + " | " + linkDelete;
+                                }
+                            }
+                        ]
+                    });
+                });
+        });
+    </script>
+}

@@ -11,7 +11,7 @@ namespace LibraryCoreProject.WebApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LibraryApiController : Controller
+    public class LibraryApiController : ControllerBase
     {
         private readonly IBookManager _manager;
         private readonly ILogger<LibraryApiController> _logger;
@@ -28,7 +28,7 @@ namespace LibraryCoreProject.WebApp.Controllers
         {
             try
             {
-                _logger.LogInformation("Get method");
+                _logger.LogInformation("Get all method");
                 var model = await _manager.GetAllBooks();
 
                 return Ok(model);
@@ -36,6 +36,26 @@ namespace LibraryCoreProject.WebApp.Controllers
             catch (Exception ex)
             {
                 _logger.LogError($"Failed to get books: {ex}");
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("{guid:guid}")]
+        public async Task<IActionResult> Get(string guid)
+        {
+            try
+            {
+                _logger.LogInformation("Get single method");
+                var model = await _manager.GetBookById(guid);
+
+                if (model == null)
+                    return NotFound();
+
+                return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to get book: {ex}");
                 return BadRequest();
             }
         }

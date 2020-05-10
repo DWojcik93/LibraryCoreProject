@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 
 namespace LibraryCoreProject.WebApp
 {
@@ -33,7 +34,7 @@ namespace LibraryCoreProject.WebApp
 
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>
-                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             );
 
             services.AddDbContext<LibraryContext>(options =>
@@ -60,7 +61,7 @@ namespace LibraryCoreProject.WebApp
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseNodeModules();
             app.UseRouting();
 
             app.UseAuthorization();
