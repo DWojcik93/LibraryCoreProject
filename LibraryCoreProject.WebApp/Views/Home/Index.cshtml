@@ -42,13 +42,23 @@
 <br />
 <div>
     <table class="table table-bordered table-responsive-lg table-hover" id="apiBooks">
+        <thead>
+            <tr>
+                <td>Author</td>
+                <td>Title</td>
+                <td>Category</td>
+                <td>Rate</td>
+                <td>Pages</td>
+                <td>Available</td>
+                <td></td>
+            </tr>
+        </thead>
     </table>
 </div>
 
-
 @section Scripts{
     <script>
-        $(function () {
+        @*$(document).ready(function () {
             $.ajax("/api/LibraryApi/",
                 { method: "get" })
                 .then(function (response) {
@@ -56,12 +66,12 @@
                     $("#apiBooks").dataTable({
                         data: response,
                         columns: [
-                            { "data": "author.firstName"},
-                            { "data": "title"},
-                            { "data": "category"},
-                            { "data": "rate"},
-                            { "data": "pages"},
-                            { "data": "isAvailable" },
+                            { data: "author.firstName"},
+                            { data: "title"},
+                            { data: "category"},
+                            { data: "rate"},
+                            { data: "pages"},
+                            { data: "isAvailable" },
                             {
                                 mRender: function (data, type, row) {
                                     var linkEdit = '@Html.ActionLink("Edit", "Edit", "LibraryApi", new { guid = -1 })';
@@ -80,6 +90,34 @@
                         ]
                     });
                 });
+        });*@
+        $('#apiBooks').DataTable({
+            ajax: {
+                url: '/api/LibraryApi/',
+                dataSrc: 'data'
+            },
+            columns: [
+                { data: "author.firstName" },
+                { data: "title" },
+                { data: "category" },
+                { data: "rate" },
+                { data: "pages" },
+                { data: "isAvailable" },
+                            {
+                                mRender: function (data, type, row) {
+                                    var linkEdit = '@Html.ActionLink("Edit", "Edit", "LibraryApi", new { guid = -1 })';
+                                    console.log(row.guid);
+                                    linkEdit = linkEdit.replace("-1", row.guid);
+
+                                    var linkDetails = '@Html.ActionLink("Details", "Get", "LibraryApi", new { guid = -1 })';
+                                    linkDetails = linkDetails.replace("-1", row.guid);
+
+                                    var linkDelete = '@Html.ActionLink("Delete", "Delete", new { guid = -1 })';
+                                    linkDelete = linkDelete.replace("-1", row.guid);
+
+                                    return linkDetails + " | " + linkEdit + " | " + linkDelete;
+                                }
+                            }]
         });
     </script>
 }

@@ -31,7 +31,7 @@ namespace LibraryCoreProject.WebApp.Controllers
                 _logger.LogInformation("Get all method");
                 var model = await _manager.GetAllBooks();
 
-                return Ok(model);
+                return Ok(new { data = model });
             }
             catch (Exception ex)
             {
