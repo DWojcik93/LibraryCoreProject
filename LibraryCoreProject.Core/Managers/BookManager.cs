@@ -36,7 +36,8 @@ namespace LibraryCoreProject.Core.Managers
         public async Task<List<BookDto>> GetAllBooks()
         {
             var books = await _context.Books.Include(a => a.Author).ToListAsync();
-            return _mapper.Map<List<Book>, List<BookDto>>(books);
+            var res = _mapper.Map<List<Book>, List<BookDto>>(books);
+            return res;
         }
 
         public async Task<BookDto> GetBookById(string bookId)

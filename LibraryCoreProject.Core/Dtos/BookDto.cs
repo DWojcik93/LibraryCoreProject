@@ -12,6 +12,7 @@ namespace LibraryCoreProject.Core.Dtos
         public Guid GUID { get; set; }
         public string Title { get; set; }
         public virtual AuthorDto Author { get; set; }
+        public string FullName { get; set; }
         public int Pages { get; set; }
         public Rate Rate { get; set; }
         public Category Category { get; set; }
