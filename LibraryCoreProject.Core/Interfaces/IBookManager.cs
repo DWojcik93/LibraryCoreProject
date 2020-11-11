@@ -10,10 +10,15 @@ namespace LibraryCoreProject.Core.Interfaces
     public interface IBookManager
     {
         Task<List<BookDto>> GetAllBooks();
-        Task<BookDto> GetBookById(string bookId);
+
+        Task<BookDto> GetBookById(int bookId);
+
         BookDto CreateBook();
-        BookDto PutBook(string bookId);
-        void DeleteBook(string bookId);
+
+        BookDto PutBook(int bookId);
+
+        void DeleteBook(int bookId);
+
         Task<int> SaveChangesAsync();
     }
 }

@@ -63,7 +63,7 @@ namespace LibraryCoreProject.Data.Context
             modelBuilder.Entity<Book>().HasData(
                   new Book
                   {
-                      GUID = new Guid("1918eada-c237-ea11-a8e1-7ce9d3ea20e9"),
+                      Id = 1,
                       Title = "Hobbit",
                       AuthorId = 1,
                       Pages = 320,
@@ -73,11 +73,13 @@ namespace LibraryCoreProject.Data.Context
                       ReturnDate = null,
                       UserId = null,
                       Category = Enums.Category.SciFi,
-                      LibraryId = 1
+                      LibraryId = 1,
+                      BookImageId = 1,
+                      BookCode = "GHJ-4578"
                   },
                   new Book
                   {
-                      GUID = new Guid("cbb3c533-c337-ea11-a8e1-7ce9d3ea20e9"),
+                      Id = 2,
                       Title = "Władca Pierścieni",
                       AuthorId = 1,
                       Pages = 504,
@@ -87,11 +89,13 @@ namespace LibraryCoreProject.Data.Context
                       ReturnDate = null,
                       UserId = null,
                       Category = Enums.Category.SciFi,
-                      LibraryId = 1
+                      LibraryId = 1,
+                      BookImageId = 2,
+                      BookCode = "GHJ-4578"
                   },
                   new Book
                   {
-                      GUID = new Guid("14abb767-c337-ea11-a8e1-7ce9d3ea20e9"),
+                      Id = 3,
                       Title = "Zielona Mila",
                       AuthorId = 2,
                       Pages = 416,
@@ -101,11 +105,13 @@ namespace LibraryCoreProject.Data.Context
                       ReturnDate = null,
                       UserId = null,
                       Category = Enums.Category.SciFi,
-                      LibraryId = 1
+                      LibraryId = 1,
+                      BookImageId = 3,
+                      BookCode = "CDJ-9338"
                   },
                   new Book
                   {
-                      GUID = new Guid("391cb3c3-9e19-4bf0-ab34-c117108e61ea"),
+                      Id = 4,
                       Title = "Lśnienie",
                       AuthorId = 2,
                       Pages = 520,
@@ -115,11 +121,13 @@ namespace LibraryCoreProject.Data.Context
                       ReturnDate = null,
                       UserId = null,
                       Category = Enums.Category.Horror,
-                      LibraryId = 1
+                      LibraryId = 1,
+                      BookImageId = 4,
+                      BookCode = "978-AABC"
                   },
                   new Book
                   {
-                      GUID = new Guid("ba18b119-a8df-4570-9c78-c94e8c21c7c8"),
+                      Id = 5,
                       Title = "Pan Taduesz",
                       AuthorId = 3,
                       Pages = 304,
@@ -129,11 +137,13 @@ namespace LibraryCoreProject.Data.Context
                       ReturnDate = null,
                       UserId = null,
                       Category = Enums.Category.Novel,
-                      LibraryId = 1
+                      LibraryId = 1,
+                      BookImageId = 5,
+                      BookCode = "ZXY-Z570"
                   },
                   new Book
                   {
-                      GUID = new Guid("750685c3-2fd7-49cf-ac51-cc11c30c795d"),
+                      Id = 6,
                       Title = "Sonety Krymskie",
                       AuthorId = 3,
                       Pages = 32,
@@ -143,9 +153,55 @@ namespace LibraryCoreProject.Data.Context
                       ReturnDate = null,
                       UserId = null,
                       Category = Enums.Category.Novel,
-                      LibraryId = 1
+                      LibraryId = 1,
+                      BookImageId = 6,
+                      BookCode = "845-9657"
                   }
                 );
+
+            modelBuilder.Entity<BookImage>().HasData(
+                new BookImage
+                {
+                    Id = 1,
+                    BookId = 1,
+                    Name = "Hobbit",
+                    ImageUrl = "assets/images/hobbit.png"
+                },
+                new BookImage
+                {
+                    Id = 2,
+                    BookId = 2,
+                    Name = "The Lord of Rings",
+                    ImageUrl = "assets/images/the-lord-of-rings.png"
+                },
+                new BookImage
+                {
+                    Id = 3,
+                    BookId = 3,
+                    Name = "The Green Mile",
+                    ImageUrl = "assets/images/the-green-mile.png"
+                },
+                new BookImage
+                {
+                    Id = 4,
+                    BookId = 4,
+                    Name = "The Shining",
+                    ImageUrl = "assets/images/the-shining.png"
+                },
+                new BookImage
+                {
+                    Id = 5,
+                    BookId = 5,
+                    Name = "Pan Taduesz",
+                    ImageUrl = "assets/images/pan-tadeusz.png"
+                },
+                new BookImage
+                {
+                    Id = 6,
+                    BookId = 6,
+                    Name = "Sonety Krymskie",
+                    ImageUrl = "assets/images/sonety-krymskie.png"
+                });
         }
     }
 }

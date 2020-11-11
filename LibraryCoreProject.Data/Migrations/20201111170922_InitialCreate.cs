@@ -69,7 +69,8 @@ namespace LibraryCoreProject.Data.Migrations
                 name: "Books",
                 columns: table => new
                 {
-                    GUID = table.Column<Guid>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(maxLength: 255, nullable: true),
                     AuthorId = table.Column<int>(nullable: false),
                     Pages = table.Column<int>(nullable: false),
@@ -79,11 +80,13 @@ namespace LibraryCoreProject.Data.Migrations
                     ReturnDate = table.Column<DateTime>(nullable: true),
                     UserId = table.Column<int>(nullable: true),
                     Category = table.Column<int>(nullable: false),
-                    LibraryId = table.Column<int>(nullable: true)
+                    LibraryId = table.Column<int>(nullable: true),
+                    BookImageId = table.Column<int>(nullable: true),
+                    BookCode = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Books", x => x.GUID);
+                    table.PrimaryKey("PK_Books", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Books_Authors_AuthorId",
                         column: x => x.AuthorId,
@@ -102,6 +105,27 @@ namespace LibraryCoreProject.Data.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BookImage",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true),
+                    ImageUrl = table.Column<string>(nullable: true),
+                    BookId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BookImage", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BookImage_Books_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Books",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -126,15 +150,28 @@ namespace LibraryCoreProject.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Books",
-                columns: new[] { "GUID", "AuthorId", "Category", "DateOfRental", "IsAvailable", "LibraryId", "Pages", "Rate", "ReturnDate", "Title", "UserId" },
+                columns: new[] { "Id", "AuthorId", "BookCode", "BookImageId", "Category", "DateOfRental", "IsAvailable", "LibraryId", "Pages", "Rate", "ReturnDate", "Title", "UserId" },
                 values: new object[,]
                 {
-                    { new Guid("1918eada-c237-ea11-a8e1-7ce9d3ea20e9"), 1, 1, null, true, 1, 320, 5, null, "Hobbit", null },
-                    { new Guid("cbb3c533-c337-ea11-a8e1-7ce9d3ea20e9"), 1, 1, null, true, 1, 504, 6, null, "Władca Pierścieni", null },
-                    { new Guid("14abb767-c337-ea11-a8e1-7ce9d3ea20e9"), 2, 1, null, true, 1, 416, 6, null, "Zielona Mila", null },
-                    { new Guid("391cb3c3-9e19-4bf0-ab34-c117108e61ea"), 2, 2, null, true, 1, 520, 5, null, "Lśnienie", null },
-                    { new Guid("ba18b119-a8df-4570-9c78-c94e8c21c7c8"), 3, 5, null, true, 1, 304, 5, null, "Pan Taduesz", null },
-                    { new Guid("750685c3-2fd7-49cf-ac51-cc11c30c795d"), 3, 5, null, true, 1, 32, 4, null, "Sonety Krymskie", null }
+                    { 1, 1, "GHJ-4578", 1, 1, null, true, 1, 320, 5, null, "Hobbit", null },
+                    { 2, 1, "GHJ-4578", 2, 1, null, true, 1, 504, 6, null, "Władca Pierścieni", null },
+                    { 3, 2, "CDJ-9338", 3, 1, null, true, 1, 416, 6, null, "Zielona Mila", null },
+                    { 4, 2, "978-AABC", 4, 2, null, true, 1, 520, 5, null, "Lśnienie", null },
+                    { 5, 3, "ZXY-Z570", 5, 5, null, true, 1, 304, 5, null, "Pan Taduesz", null },
+                    { 6, 3, "845-9657", 6, 5, null, true, 1, 32, 4, null, "Sonety Krymskie", null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "BookImage",
+                columns: new[] { "Id", "BookId", "ImageUrl", "Name" },
+                values: new object[,]
+                {
+                    { 1, 1, "assets/images/hobbit.png", "Hobbit" },
+                    { 2, 2, "assets/images/the-lord-of-rings.png", "The Lord of Rings" },
+                    { 3, 3, "assets/images/the-green-mile.png", "The Green Mile" },
+                    { 4, 4, "assets/images/the-shining.png", "The Shining" },
+                    { 5, 5, "assets/images/pan-tadeusz.png", "Pan Taduesz" },
+                    { 6, 6, "assets/images/sonety-krymskie.png", "Sonety Krymskie" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -146,6 +183,12 @@ namespace LibraryCoreProject.Data.Migrations
                 name: "IX_Authors_LibraryId",
                 table: "Authors",
                 column: "LibraryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BookImage_BookId",
+                table: "BookImage",
+                column: "BookId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Books_LibraryId",
@@ -170,6 +213,9 @@ namespace LibraryCoreProject.Data.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "BookImage");
+
             migrationBuilder.DropTable(
                 name: "Books");
 

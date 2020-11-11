@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryCoreProject.Data.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    [Migration("20200310213625_InitialCreate")]
+    [Migration("20201111170922_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.2")
+                .HasAnnotation("ProductVersion", "3.1.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -90,11 +90,18 @@ namespace LibraryCoreProject.Data.Migrations
 
             modelBuilder.Entity("LibraryCoreProject.Data.Models.Book", b =>
                 {
-                    b.Property<Guid>("GUID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AuthorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("BookCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("BookImageId")
                         .HasColumnType("int");
 
                     b.Property<int>("Category")
@@ -125,7 +132,7 @@ namespace LibraryCoreProject.Data.Migrations
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("GUID");
+                    b.HasKey("Id");
 
                     b.HasIndex("LibraryId");
 
@@ -138,8 +145,10 @@ namespace LibraryCoreProject.Data.Migrations
                     b.HasData(
                         new
                         {
-                            GUID = new Guid("1918eada-c237-ea11-a8e1-7ce9d3ea20e9"),
+                            Id = 1,
                             AuthorId = 1,
+                            BookCode = "GHJ-4578",
+                            BookImageId = 1,
                             Category = 1,
                             IsAvailable = true,
                             LibraryId = 1,
@@ -149,8 +158,10 @@ namespace LibraryCoreProject.Data.Migrations
                         },
                         new
                         {
-                            GUID = new Guid("cbb3c533-c337-ea11-a8e1-7ce9d3ea20e9"),
+                            Id = 2,
                             AuthorId = 1,
+                            BookCode = "GHJ-4578",
+                            BookImageId = 2,
                             Category = 1,
                             IsAvailable = true,
                             LibraryId = 1,
@@ -160,8 +171,10 @@ namespace LibraryCoreProject.Data.Migrations
                         },
                         new
                         {
-                            GUID = new Guid("14abb767-c337-ea11-a8e1-7ce9d3ea20e9"),
+                            Id = 3,
                             AuthorId = 2,
+                            BookCode = "CDJ-9338",
+                            BookImageId = 3,
                             Category = 1,
                             IsAvailable = true,
                             LibraryId = 1,
@@ -171,8 +184,10 @@ namespace LibraryCoreProject.Data.Migrations
                         },
                         new
                         {
-                            GUID = new Guid("391cb3c3-9e19-4bf0-ab34-c117108e61ea"),
+                            Id = 4,
                             AuthorId = 2,
+                            BookCode = "978-AABC",
+                            BookImageId = 4,
                             Category = 2,
                             IsAvailable = true,
                             LibraryId = 1,
@@ -182,8 +197,10 @@ namespace LibraryCoreProject.Data.Migrations
                         },
                         new
                         {
-                            GUID = new Guid("ba18b119-a8df-4570-9c78-c94e8c21c7c8"),
+                            Id = 5,
                             AuthorId = 3,
+                            BookCode = "ZXY-Z570",
+                            BookImageId = 5,
                             Category = 5,
                             IsAvailable = true,
                             LibraryId = 1,
@@ -193,14 +210,84 @@ namespace LibraryCoreProject.Data.Migrations
                         },
                         new
                         {
-                            GUID = new Guid("750685c3-2fd7-49cf-ac51-cc11c30c795d"),
+                            Id = 6,
                             AuthorId = 3,
+                            BookCode = "845-9657",
+                            BookImageId = 6,
                             Category = 5,
                             IsAvailable = true,
                             LibraryId = 1,
                             Pages = 32,
                             Rate = 4,
                             Title = "Sonety Krymskie"
+                        });
+                });
+
+            modelBuilder.Entity("LibraryCoreProject.Data.Models.BookImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId")
+                        .IsUnique();
+
+                    b.ToTable("BookImage");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BookId = 1,
+                            ImageUrl = "assets/images/hobbit.png",
+                            Name = "Hobbit"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BookId = 2,
+                            ImageUrl = "assets/images/the-lord-of-rings.png",
+                            Name = "The Lord of Rings"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            BookId = 3,
+                            ImageUrl = "assets/images/the-green-mile.png",
+                            Name = "The Green Mile"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            BookId = 4,
+                            ImageUrl = "assets/images/the-shining.png",
+                            Name = "The Shining"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            BookId = 5,
+                            ImageUrl = "assets/images/pan-tadeusz.png",
+                            Name = "Pan Taduesz"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            BookId = 6,
+                            ImageUrl = "assets/images/sonety-krymskie.png",
+                            Name = "Sonety Krymskie"
                         });
                 });
 
@@ -280,6 +367,15 @@ namespace LibraryCoreProject.Data.Migrations
                     b.HasOne("LibraryCoreProject.Data.Models.User", "User")
                         .WithMany("Books")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("LibraryCoreProject.Data.Models.BookImage", b =>
+                {
+                    b.HasOne("LibraryCoreProject.Data.Models.Book", "Book")
+                        .WithOne("BookImage")
+                        .HasForeignKey("LibraryCoreProject.Data.Models.BookImage", "BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("LibraryCoreProject.Data.Models.User", b =>

@@ -29,9 +29,8 @@ namespace LibraryCoreProject.Api.Controllers
             try
             {
                 _logger.LogInformation("Get all method");
-                var model = await _manager.GetAllBooks();
 
-                return Ok(new { data = model });
+                return Ok(await _manager.GetAllBooks());
             }
             catch (Exception ex)
             {
@@ -40,13 +39,13 @@ namespace LibraryCoreProject.Api.Controllers
             }
         }
 
-        [HttpGet, Route("{guid:guid}")]
-        public async Task<IActionResult> Get(string guid)
+        [HttpGet, Route("{id:int}")]
+        public async Task<IActionResult> Get(int id)
         {
             try
             {
                 _logger.LogInformation("Get single method");
-                var model = await _manager.GetBookById(guid);
+                var model = await _manager.GetBookById(id);
 
                 if (model == null)
                     return NotFound();

@@ -28,29 +28,33 @@ namespace LibraryCoreProject.Core.Managers
             throw new NotImplementedException();
         }
 
-        public void DeleteBook(string bookId)
+        public void DeleteBook(int bookId)
         {
             throw new NotImplementedException();
         }
 
         public async Task<List<BookDto>> GetAllBooks()
         {
-            var books = await _context.Books.Include(a => a.Author).ToListAsync();
+            var books = await _context.Books
+                .Include(a => a.Author)
+                .Include(a => a.BookImage)
+                .ToListAsync();
             var res = _mapper.Map<List<Book>, List<BookDto>>(books);
             return res;
         }
 
-        public async Task<BookDto> GetBookById(string bookId)
+        public async Task<BookDto> GetBookById(int bookId)
         {
             var book = await _context.Books
                 .Include(a => a.Author)
+                .Include(a => a.BookImage)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(a => a.GUID.ToString() == bookId);
+                .FirstOrDefaultAsync(a => a.Id == bookId);
 
             return _mapper.Map<BookDto>(book);
         }
 
-        public BookDto PutBook(string bookId)
+        public BookDto PutBook(int bookId)
         {
             throw new NotImplementedException();
         }

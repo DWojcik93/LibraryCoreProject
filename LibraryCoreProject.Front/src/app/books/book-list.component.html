@@ -45,7 +45,7 @@
             <td>{{ book.isAvailable }}</td>
             <td>{{ book.bookCode | convertToSpaces: '-' }}</td>
             <td>
-              <pm-star [rating]='book.starRating' (ratingClicked)='onRatingClicked($event)'>
+              <pm-star [rating]='book.rate' (ratingClicked)='onRatingClicked($event)'>
               </pm-star>
             </td>
           </tr>

@@ -18,8 +18,9 @@ namespace LibraryCoreProject.Core.Profiles
                 .ReverseMap();
 
             CreateMap<Book, BookDto>()
-                .ForMember(a => a.FullName, b => b.MapFrom(c => $"{c.Author.FirstName} {c.Author.LastName}"))
-                .ForMember(a => a.Category, b => b.MapFrom(c => EnumerableExpressionHelper.GetStringFromEnumInt((int)c.Category)))
+                .ForMember(a => a.Author, b => b.MapFrom(c => $"{c.Author.FirstName} {c.Author.LastName}"))
+                .ForMember(a => a.ImageUrl, b => b.MapFrom(c => c.BookImage.ImageUrl))
+                .ForMember(a => a.Category, b => b.MapFrom(c => EnumHelper.GetStringFromEnumInt((int)c.Category)))
                 .ReverseMap();
 
             CreateMap<Library, LibraryDto>()

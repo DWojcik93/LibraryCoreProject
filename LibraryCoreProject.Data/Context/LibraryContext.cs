@@ -26,6 +26,11 @@ namespace LibraryCoreProject.Data.Context
             modelBuilder.Entity<Book>()
                 .HasIndex(a => new { a.AuthorId, a.Title });
 
+            modelBuilder.Entity<Book>()
+                .HasOne(a => a.BookImage)
+                .WithOne(a => a.Book)
+                .HasForeignKey<BookImage>(a => a.BookId);
+
             //W celu nie podejmowania akcji podczas usuwania Biblioteki
             //modelBuilder.Entity<Library>()
             //    .HasMany(a => a.Books)
