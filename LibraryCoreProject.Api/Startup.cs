@@ -29,9 +29,22 @@ namespace LibraryCoreProject.Api
 
         public IConfiguration Configuration { get; }
 
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("http://localhost:4200")
+                                                  .AllowAnyHeader()
+                                                  .AllowAnyMethod();
+                                  });
+            });
+
             services.AddAutoMapper(c => c.AddProfile<LibraryProfile>(), typeof(Startup));
 
             services.AddControllers()
@@ -61,9 +74,12 @@ namespace LibraryCoreProject.Api
 
             ctx.Database.Migrate();
 
+            app.UseCors(MyAllowSpecificOrigins);
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             //app.UseNodeModules();
+
             app.UseRouting();
 
             app.UseAuthorization();
