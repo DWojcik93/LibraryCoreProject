@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
@@ -15,10 +15,18 @@ export class BookService {
     constructor(private http: HttpClient) { }
 
     public getBooks(): Observable<IBook[]> {
-        return this.http.get<IBook[]>(this.urlAddress).pipe(
-            tap(data => console.log('All: ' + JSON.stringify(data))),
-            catchError(this.handleError)
-        );
+        return this.http.get<IBook[]>(this.urlAddress)
+            .pipe(
+                //tap(data => console.log('All: ' + JSON.stringify(data))),
+                catchError(this.handleError)
+            );
+    }
+
+    public getBook(id: number): Observable<IBook> {
+        return this.http.get<IBook>(this.urlAddress + '/' + id)
+            .pipe(
+                catchError(this.handleError)
+            );
     }
 
     private handleError(err: HttpErrorResponse): Observable<never> {

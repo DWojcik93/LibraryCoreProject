@@ -39,7 +39,7 @@ namespace LibraryCoreProject.Api.Controllers
             }
         }
 
-        [HttpGet, Route("{id:int}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
             try

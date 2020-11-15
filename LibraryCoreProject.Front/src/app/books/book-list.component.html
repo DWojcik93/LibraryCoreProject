@@ -38,7 +38,11 @@
               <img *ngIf='showImage' [src]='book.imageUrl' [title]='book.title' [style.width.px]='imageWidth'
                 [style.margin.px]='imageMargin' />
             </td>
-            <td>{{ book.title }}</td>
+            <td>
+              <a [routerLink]="['/books', book.id]">
+                {{ book.title }}
+              </a>
+            </td>
             <td>{{ book.author }}</td>
             <td>{{ book.pages }}</td>
             <td>{{ book.category }}</td>
