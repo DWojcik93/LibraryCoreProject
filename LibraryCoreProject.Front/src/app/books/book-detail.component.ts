@@ -24,7 +24,6 @@ export class BookDetailComponent implements OnInit {
   }
 
   getBook(id: number): void {
-    console.log(id);
     this.bookSerivce.getBook(id).subscribe({
       next: book => this.book = book,
       error: err => this.errorMessage = err
