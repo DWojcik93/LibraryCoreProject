@@ -23,6 +23,7 @@ namespace LibraryCoreProject.Core.Managers
             _context = context;
             _mapper = mapper;
         }
+
         public BookDto CreateBook()
         {
             throw new NotImplementedException();

@@ -16,14 +16,41 @@ namespace LibraryCoreProject.Data.Context
                   }
             );
 
+            modelBuilder.Entity<Role>().HasData(
+                new Role
+                {
+                    Id = 1,
+                    Name = "Admin"
+                },
+                new Role
+                {
+                    Id = 2,
+                    Name = "User"
+                }
+            );
+
             modelBuilder.Entity<User>().HasData(
                 new User
                 {
                     Id = 1,
                     Books = null,
+                    UserName = "Admin",
                     FirstName = "Damian",
                     LastName = "Wójcik",
-                    LibraryId = 1
+                    LibraryId = 1,
+                    Password = "3BFC403897351095C53BBE8DAEE1DF374D3D827E6E86D1D6A22B5B75A3524019",
+                    RoleId = 1
+                },
+                new User
+                {
+                    Id = 2,
+                    Books = null,
+                    UserName = "User",
+                    FirstName = "User",
+                    LastName = "Example",
+                    LibraryId = 1,
+                    Password = "3BFC403897351095C53BBE8DAEE1DF374D3D827E6E86D1D6A22B5B75A3524019",
+                    RoleId = 2
                 });
 
             modelBuilder.Entity<Author>().HasData

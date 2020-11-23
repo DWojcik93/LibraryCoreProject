@@ -8,9 +8,19 @@ namespace LibraryCoreProject.Core.Dtos
 {
     public class UserDto
     {
+        public UserDto()
+        {
+            Books = new List<BookDto>();
+        }
+
         public int Id { get; set; }
+
+        public string UserName { get; set; }
+
         public string FirstName { get; set; }
+
         public string LastName { get; set; }
-        public virtual ICollection<BookDto> Books { get; set; }
+
+        public ICollection<BookDto> Books { get; set; }
     }
 }

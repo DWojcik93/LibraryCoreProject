@@ -7,10 +7,12 @@ using LibraryCoreProject.Core.Interfaces;
 using LibraryCoreProject.Core.Managers;
 using LibraryCoreProject.Core.Profiles;
 using LibraryCoreProject.Data.Context;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -47,7 +49,7 @@ namespace LibraryCoreProject.Api
 
             services.AddAutoMapper(c => c.AddProfile<LibraryProfile>(), typeof(Startup));
 
-            services.AddControllers()
+            services.AddControllers(o => o.Filters.Add(new AuthorizeFilter()))
                 .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             );
@@ -56,6 +58,10 @@ namespace LibraryCoreProject.Api
                     options.UseSqlServer(Configuration.GetConnectionString("LibraryDatabase")));
 
             services.AddScoped<IBookManager, BookManager>();
+            services.AddScoped<IAccountManager, AccountManager>();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,6 +88,7 @@ namespace LibraryCoreProject.Api
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

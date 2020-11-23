@@ -15,14 +15,27 @@ namespace LibraryCoreProject.Data.Models
         {
             Books = new Collection<Book>();
         }
+
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
+        public string UserName { get; set; }
+
         public string FirstName { get; set; }
+
         public string LastName { get; set; }
+
+        public string Password { get; set; }
+
+        public Role Role { get; set; }
+
+        public int RoleId { get; set; }
+
         public virtual ICollection<Book> Books { get; set; }
 
         [ForeignKey("LibraryId")]
         public virtual Library Library { get; set; }
+
         public int? LibraryId { get; set; }
     }
 }
