@@ -29,6 +29,14 @@ export class BookService {
             );
     }
 
+    public createBook(book: IBook): Observable<boolean>{
+        return this.http.post<boolean>(this.urlAddress, {book: book})
+        .pipe(
+            //tap(data => console.log('All: ' + JSON.stringify(data))),
+            catchError(this.handleError)
+        );
+    }
+
     private handleError(err: HttpErrorResponse): Observable<never> {
         // in a real world app, we may send the server to some remote logging infrastructure
         // instead of just logging it to the console

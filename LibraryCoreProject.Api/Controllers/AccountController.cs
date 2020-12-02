@@ -28,7 +28,7 @@ namespace LibraryCoreProject.Api.Controllers
             _logger = logger;
         }
 
-        [HttpPost]
+        [HttpPost("login")]
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginModel model)
         {
@@ -39,7 +39,7 @@ namespace LibraryCoreProject.Api.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.FirstName),
+                new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Role, user.RoleId.ToString())
             };
 
@@ -52,7 +52,13 @@ namespace LibraryCoreProject.Api.Controllers
                 principal,
                 new AuthenticationProperties { IsPersistent = model.RememberLogin });
 
-            return LocalRedirect(model.ReturnUrl);
+            return Ok();
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Ok();
         }
     }
 }

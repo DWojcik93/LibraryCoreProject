@@ -10,51 +10,56 @@
       </div>
     </div>
     <div class='row'>
-      <div class='col-md-2'>
+      <div class='col-md-12'>
         <h4>Filter by: {{listFilter | lowercase}}</h4>
+        <a [routerLink]="['/books']">
+          <button class="btn btn-primary" style="float: right;">
+            Add New Book
+          </button>
+        </a>
       </div>
     </div>
-    <div class='table-responsive'>
-      <table class='table' *ngIf='books && books.length'>
-        <thead>
-          <tr>
-            <th>
-              <button class='btn btn-primary' (click)='toggleImage()'>
-                {{showImage ? 'Hide' : 'Show'}} Image
-              </button>
-            </th>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Pages</th>
-            <th>Category</th>
-            <th>Is Available</th>
-            <th>Code</th>
-            <th>6 Star Rating</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let book of filteredBooks">
-            <td>
-              <img *ngIf='showImage' [src]='book.imageUrl' [title]='book.title' [style.width.px]='imageWidth'
-                [style.margin.px]='imageMargin' />
-            </td>
-            <td>
-              <a [routerLink]="['/books', book.id]">
-                {{ book.title }}
-              </a>
-            </td>
-            <td>{{ book.author }}</td>
-            <td>{{ book.pages }}</td>
-            <td>{{ book.category }}</td>
-            <td>{{ book.isAvailable }}</td>
-            <td>{{ book.bookCode | convertToSpaces: '-' }}</td>
-            <td>
-              <pm-star [rating]='book.rate' (ratingClicked)='onRatingClicked($event)'>
-              </pm-star>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  </div>
+  <div class='table-responsive'>
+    <table class='table' *ngIf='books && books.length'>
+      <thead>
+        <tr>
+          <th>
+            <button class='btn btn-primary' (click)='toggleImage()'>
+              {{showImage ? 'Hide' : 'Show'}} Image
+            </button>
+          </th>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Pages</th>
+          <th>Category</th>
+          <th>Is Available</th>
+          <th>Code</th>
+          <th>6 Star Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let book of filteredBooks">
+          <td>
+            <img *ngIf='showImage' [src]='book.imageUrl' [title]='book.title' [style.width.px]='imageWidth'
+              [style.margin.px]='imageMargin' />
+          </td>
+          <td>
+            <a [routerLink]="['/books', book.id]">
+              {{ book.title }}
+            </a>
+          </td>
+          <td>{{ book.author }}</td>
+          <td>{{ book.pages }}</td>
+          <td>{{ book.category }}</td>
+          <td>{{ book.isAvailable }}</td>
+          <td>{{ book.bookCode | convertToSpaces: '-' }}</td>
+          <td>
+            <pm-star [rating]='book.rate' (ratingClicked)='onRatingClicked($event)'>
+            </pm-star>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

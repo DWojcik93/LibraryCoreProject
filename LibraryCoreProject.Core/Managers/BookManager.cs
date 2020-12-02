@@ -4,6 +4,7 @@ using LibraryCoreProject.Core.Interfaces;
 using LibraryCoreProject.Data.Context;
 using LibraryCoreProject.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,46 +17,101 @@ namespace LibraryCoreProject.Core.Managers
     {
         private readonly LibraryContext _context;
         private readonly IMapper _mapper;
+        private readonly ILogger<BookManager> _logger;
 
         public BookManager(LibraryContext context,
-            IMapper mapper)
+            IMapper mapper,
+            ILogger<BookManager> logger)
         {
             _context = context;
             _mapper = mapper;
+            _logger = logger;
         }
 
-        public BookDto CreateBook()
+        public bool CreateBook(BookDto book)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _logger.LogInformation("Create book");
+
+                var res = _mapper.Map<BookDto, Book>(book);
+
+                _context.Books.Add(res);
+                _context.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to create book: {ex}");
+                return false;
+            }
         }
 
-        public void DeleteBook(int bookId)
+        public bool DeleteBook(int bookId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _logger.LogInformation("Delete book");
+
+                var bookToDelete = _context.Books.FirstOrDefault(a => a.Id == bookId);
+
+                _context.Books.Remove(bookToDelete);
+                _context.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to delete book: {ex}");
+                return false;
+            }
         }
 
         public async Task<List<BookDto>> GetAllBooks()
         {
-            var books = await _context.Books
-                .Include(a => a.Author)
-                .Include(a => a.BookImage)
-                .ToListAsync();
-            var res = _mapper.Map<List<Book>, List<BookDto>>(books);
-            return res;
+            try
+            {
+                _logger.LogInformation("Get all books");
+
+                var books = await _context.Books
+                            .Include(a => a.Author)
+                            .Include(a => a.BookImage)
+                            .ToListAsync();
+
+                var res = _mapper.Map<List<Book>, List<BookDto>>(books);
+
+                return res;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to get books: {ex}");
+                return new List<BookDto>();
+            }
         }
 
         public async Task<BookDto> GetBookById(int bookId)
         {
-            var book = await _context.Books
-                .Include(a => a.Author)
-                .Include(a => a.BookImage)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(a => a.Id == bookId);
+            try
+            {
+                _logger.LogInformation("Get single method");
 
-            return _mapper.Map<BookDto>(book);
+                var book = await _context.Books
+                               .Include(a => a.Author)
+                               .Include(a => a.BookImage)
+                               .AsNoTracking()
+                               .FirstOrDefaultAsync(a => a.Id == bookId);
+
+                return _mapper.Map<BookDto>(book);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to get book: {ex}");
+                return null;
+            }
         }
 
-        public BookDto PutBook(int bookId)
+        public bool PutBook(BookDto book)
         {
             throw new NotImplementedException();
         }

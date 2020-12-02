@@ -1,4 +1,6 @@
-﻿using LibraryCoreProject.Core.Interfaces;
+﻿using LibraryCoreProject.Core.Dtos;
+using LibraryCoreProject.Core.Interfaces;
+using LibraryCoreProject.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -10,54 +12,57 @@ using System.Threading.Tasks;
 
 namespace LibraryCoreProject.Api.Controllers
 {
+    [AllowAnonymous]
     [ApiController]
     [Route("[controller]")]
     public class BooksController : ControllerBase
     {
         private readonly IBookManager _manager;
-        private readonly ILogger<BooksController> _logger;
 
-        public BooksController(IBookManager manager,
-                                    ILogger<BooksController> logger)
+        public BooksController(IBookManager manager)
         {
             _manager = manager;
-            _logger = logger;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
-        {
-            try
-            {
-                _logger.LogInformation("Get all method");
-
-                return Ok(await _manager.GetAllBooks());
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Failed to get books: {ex}");
-                return BadRequest();
-            }
-        }
+        public async Task<IActionResult> Get() => Ok(await _manager.GetAllBooks());
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
-            try
-            {
-                _logger.LogInformation("Get single method");
-                var model = await _manager.GetBookById(id);
-
-                if (model == null)
-                    return NotFound();
-
-                return Ok(model);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Failed to get book: {ex}");
+            if (id == 0)
                 return BadRequest();
-            }
+
+            var result = await _manager.GetAllBooks();
+
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public IActionResult Create([FromBody] BookDto book)
+        {
+            if (book == null)
+                return BadRequest();
+
+            if (_manager.CreateBook(book))
+                return Ok();
+            else
+                return BadRequest();
+        }
+
+        [HttpDelete]
+        public IActionResult Delete(int id)
+        {
+            if (id == 0)
+                return BadRequest();
+
+            if (_manager.DeleteBook(id))
+                return Ok();
+            else
+                return BadRequest();
         }
     }
 }

@@ -13,12 +13,10 @@ namespace LibraryCoreProject.Core.Interfaces
 
         Task<BookDto> GetBookById(int bookId);
 
-        BookDto CreateBook();
+        bool CreateBook(BookDto book);
 
-        BookDto PutBook(int bookId);
+        bool PutBook(BookDto book);
 
-        void DeleteBook(int bookId);
-
-        Task<int> SaveChangesAsync();
+        bool DeleteBook(int bookId);
     }
 }
