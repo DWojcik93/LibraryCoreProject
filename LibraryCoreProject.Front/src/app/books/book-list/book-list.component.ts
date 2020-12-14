@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { IBook } from './book';
-import { BookService } from './book.service';
+import { IBook } from '../book';
+import { BookService } from '../book.service';
 
 @Component({
     selector: 'pm-books',
@@ -54,5 +54,12 @@ export class BookListComponent implements OnInit {
             },
             error: err => this.errorMessage = err
         });
+    }
+
+    deleteBook(id) {
+        this.bookService.deleteBook(id).subscribe(res => {
+            this.books = this.books.filter(item => item.id !== id);
+            console.log('Book deleted successfully!');
+        })
     }
 }

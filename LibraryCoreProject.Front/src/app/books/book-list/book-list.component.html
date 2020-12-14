@@ -58,6 +58,9 @@
             <pm-star [rating]='book.rate' (ratingClicked)='onRatingClicked($event)'>
             </pm-star>
           </td>
+          <td>
+            <button type="button" (click)="deleteBook(book.id)" class="btn btn-danger">Delete</button>
+          </td>
         </tr>
       </tbody>
     </table>
