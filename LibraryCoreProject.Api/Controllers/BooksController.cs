@@ -33,7 +33,7 @@ namespace LibraryCoreProject.Api.Controllers
             if (id == 0)
                 return BadRequest();
 
-            var result = await _manager.GetAllBooks();
+            var result = await _manager.GetBookById(id);
 
             if (result == null)
                 return NotFound();
@@ -42,12 +42,12 @@ namespace LibraryCoreProject.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] BookDto book)
+        public IActionResult Create([FromBody] B book)
         {
             if (book == null)
                 return BadRequest();
 
-            if (_manager.CreateBook(book))
+            if (_manager.CreateBook(new BookDto()))
                 return Ok();
             else
                 return BadRequest();
@@ -64,5 +64,20 @@ namespace LibraryCoreProject.Api.Controllers
             else
                 return BadRequest();
         }
+    }
+
+    public class B
+    {
+        public string Author { get; set; }
+
+        public string Title { get; set; }
+
+        public string BookCode { get; set; }
+
+        public string Category { get; set; }
+
+        public string Pages { get; set; }
+
+        public string Rate { get; set; }
     }
 }

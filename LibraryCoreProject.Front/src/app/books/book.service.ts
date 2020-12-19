@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
@@ -30,7 +30,9 @@ export class BookService {
     }
 
     public createBook(book: IBook): Observable<boolean>{
-        return this.http.post<boolean>(this.urlAddress, {book: book})
+        const headers = new HttpHeaders().set('Content-Type','application/json');
+
+        return this.http.post<boolean>(this.urlAddress, {book: book}, {headers: headers})
         .pipe(
             catchError(this.handleError)
         );

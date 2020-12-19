@@ -16,8 +16,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     RouterModule.forChild([
       { path: 'books', component: BookListComponent },
-      { path: 'books/:id', canActivate: [BookDetailGuard], component: BookDetailComponent },
       { path: 'books/create', component: BookCreateComponent },
+      { path: 'books/:id', canActivate: [BookDetailGuard], component: BookDetailComponent },
     ]),
     SharedModule,
     ReactiveFormsModule
